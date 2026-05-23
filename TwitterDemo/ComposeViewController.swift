@@ -25,7 +25,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     }
   
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-    let newLen = textView.text.characters.count - range.length
+    let newLen = textView.text.count - range.length
  
     if (newLen <= 140){
       self.countDownLabel.text = "\(139 - newLen)"

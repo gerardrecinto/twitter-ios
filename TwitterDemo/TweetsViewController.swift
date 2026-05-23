@@ -73,7 +73,7 @@
               }
           }
       }
-      func refresh() {
+      @objc func refresh() {
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
           self.tweets = tweets
           //  for tweet in tweets {
@@ -94,7 +94,7 @@
           super.viewDidLoad()
           self.tableView.dataSource = self
           self.tableView.delegate = self
-          tableView.rowHeight = UITableViewAutomaticDimension
+          tableView.rowHeight = UITableView.automaticDimension
           tableView.estimatedRowHeight = 150
           let refreshControl = UIRefreshControl()
           refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -129,9 +129,9 @@
               let imageView = UIImageView(image: logo)
               self.navigationItem.titleView = imageView
               navigationBar.titleTextAttributes = [
-                  NSFontAttributeName : UIFont.boldSystemFont(ofSize: 22),
-                  NSForegroundColorAttributeName : UIColor(red: 0.0, green: 0.25, blue: 0.35, alpha: 0.8),
-                  NSShadowAttributeName : shadow
+                  NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 22),
+                  NSAttributedString.Key.foregroundColor : UIColor(red: 0.0, green: 0.25, blue: 0.35, alpha: 0.8),
+                  NSAttributedString.Key.shadow : shadow
               ]
           }
 
@@ -215,7 +215,7 @@
       }
       
       func setupActivityIndicator() {
-          activityIndicatorView.activityIndicatorViewStyle = .gray
+          activityIndicatorView.style = .medium
           activityIndicatorView.hidesWhenStopped = true
           self.addSubview(activityIndicatorView)
       }
