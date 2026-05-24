@@ -44,12 +44,12 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     private func applyTheme() {
-        navigationController?.navigationBar.backgroundColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = .black
         navigationController?.navigationBar.tintColor = .white
         if let logo = UIImage(named: "SmallLogo") {
             navigationItem.titleView = UIImageView(image: logo)
         } else {
-            title = "Twitter"
+            title = "X"
         }
     }
 
