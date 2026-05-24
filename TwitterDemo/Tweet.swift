@@ -53,8 +53,8 @@ struct Tweet {
                 "id": 1_000_000 + i,
                 "text": text,
                 "created_at": "\(i * 10)m ago",
-                "retweet_count": Int.random(in: 0...500),
-                "favorite_count": Int.random(in: 0...2_000),
+                "retweet_count": (i + 1) * 47,
+                "favorite_count": (i + 1) * 183,
                 "retweeted": false,
                 "favorited": false,
                 "user": user
