@@ -41,18 +41,22 @@ final class TwitterClient {
     }
 
     func like(id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) {
-        success(Tweet.mockTimeline()[0])
+        let tweet = Tweet.mockTimeline().first(where: { $0.id == id }) ?? Tweet.mockTimeline()[0]
+        success(tweet)
     }
 
     func unlike(id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) {
-        success(Tweet.mockTimeline()[0])
+        let tweet = Tweet.mockTimeline().first(where: { $0.id == id }) ?? Tweet.mockTimeline()[0]
+        success(tweet)
     }
 
     func retweet(id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) {
-        success(Tweet.mockTimeline()[0])
+        let tweet = Tweet.mockTimeline().first(where: { $0.id == id }) ?? Tweet.mockTimeline()[0]
+        success(tweet)
     }
 
     func unretweet(id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) {
-        success(Tweet.mockTimeline()[0])
+        let tweet = Tweet.mockTimeline().first(where: { $0.id == id }) ?? Tweet.mockTimeline()[0]
+        success(tweet)
     }
 }
