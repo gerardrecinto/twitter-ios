@@ -1,9 +1,8 @@
 # Twitter iOS
 
-![Swift](https://img.shields.io/badge/Swift-3%2B-F05138?logo=swift&logoColor=white)
-![iOS 9+](https://img.shields.io/badge/iOS-9%2B-000000?logo=apple&logoColor=white)
+![Swift](https://img.shields.io/badge/Swift-6.0-F05138?logo=swift&logoColor=white)
+![iOS 16+](https://img.shields.io/badge/iOS-16%2B-000000?logo=apple&logoColor=white)
 ![UIKit](https://img.shields.io/badge/UIKit-Auto%20Layout-blue)
-![AFNetworking](https://img.shields.io/badge/Networking-AFNetworking%203.0-lightgrey)
 ![OAuth](https://img.shields.io/badge/Auth-OAuth%201.0a-1DA1F2)
 
 ![Demo](docs/assets/demo2.gif)
@@ -19,16 +18,16 @@
 - **Pull-to-refresh:** A `UIRefreshControl` inserted at subview index 0; its `valueChanged` action calls `TwitterClient.homeTimeline` and ends refreshing in the success handler
 - **Retweet and like toggling:** `TweetDetailViewController` calls `TwitterClient.retweet`/`unretweet` (POST to `1.1/statuses/retweet/{id}.json` / `unretweet/{id}.json`) and `like`/`unlike` (POST to `1.1/favorites/create.json` / `destroy.json`), updating button images between normal and green/red variants on success
 - **Relative timestamps:** `TwitterCell` computes `timeDiff = Date().timeIntervalSince(tweet.timestamp)` and formats it as `"Xm"`, `"Xh"`, or `"X days ago"` without any third-party date library
-- **User profile view:** `ProfileViewController` loads cover photo and profile image via `UIImageView.setImageWith(_:)` and displays tweet count, follower count, and following count parsed from `account/verify_credentials.json`
+- **User profile view:** `ProfileViewController` loads cover photo and profile image via `UIImageView.loadImage(from: _:)` and displays tweet count, follower count, and following count parsed from `account/verify_credentials.json`
 - **Compose screen:** `ComposeViewController` enforces the 140-character limit in `UITextViewDelegate.textView(_:shouldChangeTextIn:replacementText:)`, updating a countdown `UILabel` on every keystroke
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Language | Swift 3 |
+| Language | Swift 6.0 |
 | UI | UIKit, Auto Layout, UITableViewAutomaticDimension |
-| Networking | AFNetworking 3.0, BDBOAuth1Manager 2.0 |
+| Networking | URLSession (native)|
 | API | Twitter API v1.1 |
 | Auth | OAuth 1.0a (BDBOAuth1SessionManager) |
 | Persistence | UserDefaults (user session), NotificationCenter (logout broadcast) |
@@ -40,19 +39,4 @@
 
 ## Key Implementation
 
-**BDBOAuth1SessionManager over AFHTTPSessionManager:** `TwitterClient` subclasses `BDBOAuth1SessionManager` rather than plain `AFHTTPSessionManager` so OAuth 1.0a signature generation (nonce, timestamp, HMAC-SHA1) is handled by BDBOAuth1Manager on every request, not manually constructed per-call.
-
-**Infinite scroll with `InfiniteScrollActivityView`:** A custom `UIView` wrapping `UIActivityIndicatorView` is added below the table's last row by expanding `tableView.contentInset.bottom` by `InfiniteScrollActivityView.defaultHeight`. Its frame is repositioned to `tableView.contentSize.height` on each scroll event so it stays anchored past the last cell.
-
-**Like/retweet state from API:** `Tweet.init` reads `favorited` and `retweeted` booleans directly from the JSON dictionary, so cell icons reflect server-side state on initial load rather than being derived from local toggle logic alone.
-
-## Setup
-
-```bash
-git clone https://github.com/gerardrecinto/twitter-ios.git
-cd twitter-ios
-pod install
-open TwitterDemo.xcworkspace
-```
-
-Add your Twitter API consumer key and consumer secret to `TwitterClient.swift` before building.
+**BDBOAuth1SessionManager over AFHTTPSessionManager:** `TwitterClient` subclasses `BDBOAuth1SessionManager` rather than plain `AFHTTPSessionManager` so OAuth 1.0a signature generation (nonce, timestamp, HMAC-SHA1) is handled by Mock data (API deprecated)

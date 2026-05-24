@@ -16,17 +16,17 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
   @IBOutlet weak var tweetButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+
       self.countDownLabel.text =
         "140"
       self.textView.delegate = self
 
         // Do any additional setup after loading the view.
     }
-  
+
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     let newLen = textView.text.count - range.length
- 
+
     if (newLen <= 140){
       self.countDownLabel.text = "\(139 - newLen)"
       self.countDownLabel.reloadInputViews()
@@ -35,13 +35,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
       return false
     }
   }
- 
-  
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
+
+
 
     /*
     // MARK: - Navigation

@@ -24,9 +24,9 @@ class TweetDetailViewController: UIViewController {
   @IBOutlet weak var messageButton: UIButton!
   var tweet: Tweet!
   var id: Int = 0
-  
-  
-  
+
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         screennameLabel.text = tweet!.name as! String
@@ -37,11 +37,11 @@ class TweetDetailViewController: UIViewController {
         self.usernameLabel!.text = "@" + String(describing: tweet.screenname!)
       }
         textLabel.text = tweet!.text as! String
-      
+
       if let photoData = NSData(contentsOf: tweet.profileUrl as! URL) {
         photoButton.setImage(UIImage(data: photoData as Data), for: .normal)
       }
-      
+
       let formatter = DateFormatter()
       formatter.dateStyle = .medium
       formatter.timeStyle = .short
@@ -50,7 +50,7 @@ class TweetDetailViewController: UIViewController {
       dateLabel.text = String(timestamp)
       id = tweet.tweetId
   }
-  
+
   @IBAction func onLikeButton(_ sender: Any) {
     if tweet.favorited {
       TwitterClient.sharedInstance?.unlike(id: id, success: { (tweet: Tweet) in
@@ -59,17 +59,17 @@ class TweetDetailViewController: UIViewController {
         print(error.localizedDescription)
       })
       tweet.favoritesCount = tweet.favoritesCount - 1
-      
+
     } else {
       TwitterClient.sharedInstance?.like(id: id, success: { (tweet: Tweet) in
         self.likeButton.setImage(UIImage(named: "favor-icon-red"), for: .normal)
-        
+
       }, failure: { (error: Error) in
         print(error.localizedDescription)
       })
       tweet.favoritesCount += 1    }
   }
-  
+
   @IBAction func onRetweetButton(_ sender: Any) {
     if tweet.retweeted {
       TwitterClient.sharedInstance?.unretweet(id: id, success: { (tweet: Tweet) in
@@ -86,7 +86,7 @@ class TweetDetailViewController: UIViewController {
       })
       tweet.retweetCount += 1
     }
-    
+
   }
 
   //more temporary function than viewDidLoad
@@ -107,15 +107,11 @@ class TweetDetailViewController: UIViewController {
     //likeButton.setImage(UIImage(named: "favor-icon"), for: .normal)
     replyButton.setImage(UIImage(named: "reply-icon"), for: .normal)
     messageButton.setImage(UIImage(named: "message-icon"), for: .normal)
-    
+
   }
-  
-  
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
+
+
 
     /*
     // MARK: - Navigation

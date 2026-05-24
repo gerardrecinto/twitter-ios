@@ -11,15 +11,15 @@ import UIKit
 class TwitterCell: UITableViewCell {
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-    
+
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    
+
     @IBOutlet weak var profileButton: UIButton!
-    
+
     @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
-    
+
     @IBOutlet weak var likeButton: UIButton!
     let day = Int(24 * 3600)
     let minute = Int(60)
@@ -53,9 +53,9 @@ class TwitterCell: UITableViewCell {
         didLike = !didLike
         setButtonCount()
     }
-    
-    
-    
+
+
+
        var tweet: Tweet! {
         didSet {
             screennameLabel.text = tweet.name as? String
@@ -78,12 +78,12 @@ class TwitterCell: UITableViewCell {
                 timeDiff = timeDiff/day
                 timeString = String(timeDiff) + " days ago"
             }
-            
+
             timestampLabel.text = timeString
-            
+
             let replyImage = UIImage(named: "reply-icon")
             replyButton.setImage(replyImage, for: .normal)
-            
+
             if tweet.retweeted == false {
                 let retweetImage = UIImage(named: "retweet-icon")
                 retweetButton.setImage(retweetImage, for: .normal)
@@ -94,7 +94,7 @@ class TwitterCell: UITableViewCell {
                 retweetButton.setImage(retweetImage, for: .normal)
                 didRt = true
             }
-            
+
             if tweet.favorited == false {
                 let likeImage = UIImage(named: "favor-icon")
                 likeButton.setImage(likeImage, for: .normal)
@@ -105,20 +105,20 @@ class TwitterCell: UITableViewCell {
                 likeButton.setImage(likeImage, for: .normal)
                 didLike = true
             }
-            
+
             likeCount = tweet.favoritesCount
             rtCount = tweet.retweetCount
             setButtonCount()
-            
+
             if let photoData = NSData(contentsOf: tweet.profileUrl as! URL) {
                 profileButton.setImage(UIImage(data: photoData as Data), for: .normal)
             }
 
         }
     }
-    
-    
-    
+
+
+
     func setButtonCount() {
         if likeCount < 1000 {
             likeCountString = String(likeCount)
@@ -126,9 +126,9 @@ class TwitterCell: UITableViewCell {
         else {
             likeCountString = String((likeCount/1000)) + "K"
         }
-        
+
         likeButton.setTitle(likeCountString, for: .normal)
-        
+
         if rtCount < 1000 {
             rtCountString = String(rtCount)
         }

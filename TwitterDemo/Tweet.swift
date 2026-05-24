@@ -6,53 +6,67 @@
 //  Copyright © 2017 Gerard Recinto. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class Tweet: NSObject {
-    var text: NSString?
-    var timestamp: NSDate?
+struct Tweet {
+    var id: Int = 0
+    var text: String = ""
+    var createdAt: String = ""
     var retweetCount: Int = 0
-    var favoritesCount: Int = 0
-    var tagline: NSString?
+    var favoriteCount: Int = 0
     var user: User?
-    var name: NSString?
-    var screenname: NSString?
-    var profileUrl: NSURL?
-    var favorited: Bool
-    var retweeted: Bool
-    var tweetId: Int
-  
-    init(dictionary: NSDictionary){
-        text = dictionary["text"] as? NSString
-        retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
-        let timestampString = dictionary["created_at"] as? String
-        if let timestampString = timestampString {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-            timestamp = formatter.date(from: timestampString) as NSDate?
+    var retweeted: Bool = false
+    var favorited: Bool = false
+
+    init(dictionary: NSDictionary) {
+        id = dictionary["id"] as? Int ?? 0
+        text = dictionary["text"] as? String ?? ""
+        createdAt = dictionary["created_at"] as? String ?? ""
+        retweetCount = dictionary["retweet_count"] as? Int ?? 0
+        favoriteCount = dictionary["favorite_count"] as? Int ?? 0
+        retweeted = dictionary["retweeted"] as? Bool ?? false
+        favorited = dictionary["favorited"] as? Bool ?? false
+        if let userDict = dictionary["user"] as? NSDictionary {
+            user = User(dictionary: userDict)
         }
-        
-        self.user = User(dictionary: dictionary["user"] as! NSDictionary)
-        print("username: " + String(describing: user?.name as? String))
-        self.name = user?.name
-        self.screenname = user?.screenname
-        self.profileUrl = user?.profileUrl as NSURL?
-        self.tagline = user?.tagline
-        self.tweetId = dictionary["id"] as! Int
-        self.favorited = dictionary["favorited"] as! Bool
-        self.retweeted = dictionary["retweeted"] as! Bool
-        
     }
 
-
-class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet]{
-    var tweets = [Tweet]()
-    
-    for dictionary in dictionaries{
-        let tweet = Tweet(dictionary: dictionary)
-        tweets.append(tweet)
+    static func mockTimeline() -> [Tweet] {
+        let users = [
+            ["name": "Swift Community", "screen_name": "swift_community",
+             "profile_image_url_https": "https://pbs.twimg.com/profile_images/placeholder1/photo.jpg"],
+            ["name": "iOS Dev Weekly", "screen_name": "iosdevweekly",
+             "profile_image_url_https": "https://pbs.twimg.com/profile_images/placeholder2/photo.jpg"],
+            ["name": "Hacking with Swift", "screen_name": "twostraws",
+             "profile_image_url_https": "https://pbs.twimg.com/profile_images/placeholder3/photo.jpg"],
+        ]
+        let texts = [
+            "Swift 6 concurrency is a game changer for large codebases.",
+            "Just shipped iOS 18 support — async/await made the diff.",
+            "Reminder: WWDC session on Swift actors is worth watching twice.",
+            "Hot take: @MainActor should have been the default from day one.",
+            "Working on a new open-source Swift package. Stay tuned.",
+        ]
+        return zip(texts, users.cycled(count: texts.count)).enumerated().map { i, pair in
+            let (text, user) = pair
+            let d: [String: Any] = [
+                "id": 1_000_000 + i,
+                "text": text,
+                "created_at": "\(i * 10)m ago",
+                "retweet_count": Int.random(in: 0...500),
+                "favorite_count": Int.random(in: 0...2_000),
+                "retweeted": false,
+                "favorited": false,
+                "user": user
+            ]
+            return Tweet(dictionary: d as NSDictionary)
+        }
     }
-    return tweets
 }
+
+private extension Array {
+    func cycled(count n: Int) -> [Element] {
+        guard !isEmpty else { return [] }
+        return (0..<n).map { self[$0 % self.count] }
     }
+}

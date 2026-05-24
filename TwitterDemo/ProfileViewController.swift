@@ -19,7 +19,7 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var followerCountLabel: UILabel!
   @IBOutlet weak var followerLabel: UILabel!
   @IBOutlet weak var descriptionLabel: UILabel!
-  
+
   var user: User!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +38,7 @@ class ProfileViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
 
     /*
     // MARK: - Navigation
@@ -53,7 +49,7 @@ class ProfileViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-  
+
 
 
 
